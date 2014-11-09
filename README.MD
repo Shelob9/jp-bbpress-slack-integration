@@ -3,7 +3,7 @@ JP bbPress Slack Integration
 Get notifications in your Slack when there is a new topic or reply in your bbPress.
 
 ### Setup A New Slack WebHook
-* Go To `https://<your-team-name>.slack.com/services/new/incoming-webhook
+* Go To `https://<your-team-name>.slack.com/services/new/incoming-webhook`
 * Create a new webhook
 * Set a channel to recive the notifications.
 * Copy the URL for the webhook

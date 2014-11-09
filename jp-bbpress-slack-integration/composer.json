@@ -1,0 +1,12 @@
+{
+    "name": "shelob9/jp-bbpress-slack-integration",
+    "type": "wordpress-plugin",
+    "description" : "Send notifications of new bbPress topics and replies to a Slack channel.",
+    "author": [
+        {
+            "name": "Josh Pollock",
+            "email": "Josh@JoshPress.net",
+            "url": "http://JoshPress.net"
+        }
+    ]
+}

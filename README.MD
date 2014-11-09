@@ -5,7 +5,7 @@ Get notifications in your Slack when there is a new topic or reply in your bbPre
 ### Setup A New Slack WebHook
 * Go To `https://<your-team-name>.slack.com/services/new/incoming-webhook`
 * Create a new webhook
-* Set a channel to recive the notifications.
+* Set a channel to receive the notifications
 * Copy the URL for the webhook
 
 ### Setting Up The Plugin

@@ -36,7 +36,7 @@ function jp_bbp_slack_integration(  $id, $parent_id ) {
 
 		if ( 'reply' == $type ) {
 			$link = get_permalink( $parent_id );
-			$link .= '#'.$id;
+			$link .= '#post-'.$id;
 		}
 		else {
 			$link = get_permalink( $id );

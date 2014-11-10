@@ -4,7 +4,7 @@
  * Description: Send notifications of new bbPress topics and replies to a Slack channel.
  * Author: Josh Pollock
  * Author URI: http://joshpress.net
- * Version: 0.2.0
+ * Version: 0.3.0
  * Plugin URI: https://github.com/Shelob9/jp-bbpress-slack-integration
  * License: GNU GPLv2+
  */
@@ -26,14 +26,24 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-add_action( 'bbp_new_reply',  'jp_bbp_slack_integration', 20 );
-add_action( 'bbp_new_topic',  'jp_bbp_slack_integration', 20 );
-function jp_bbp_slack_integration(  $id ) {
+add_action( 'bbp_new_reply',  'jp_bbp_slack_integration', 20, 2 );
+add_action( 'bbp_new_topic',  'jp_bbp_slack_integration', 20, 2 );
+function jp_bbp_slack_integration(  $id, $parent_id ) {
 	$url = get_option( 'jp_bbpress_slack_webhook', false );
 	if ( $url ) {
 		$post = get_post( $id );
-		$link = get_permalink( $id );
+		$type = $post->post_type;
+
+		if ( 'reply' == $type ) {
+			$link = get_permalink( $parent_id );
+			$link .= '#'.$id;
+		}
+		else {
+			$link = get_permalink( $id );
+		}
+
 		$link = htmlspecialchars( $link );
+
 
 		$excerpt = wp_trim_words( $post->post_content );
 		if ( 500 < strlen( $excerpt ) ) {
@@ -54,15 +64,28 @@ function jp_bbp_slack_integration(  $id ) {
 		);
 		$output  = 'payload=' . json_encode( $payload );
 
-
-		wp_remote_post( $url, array(
+		$response = wp_remote_post( $url, array(
 			'body' => $output,
 		) );
+
+		/**
+		 * Runs after the data is sent.
+		 *
+		 * @param array $response Response from server.
+		 *
+		 * @since 0.3.0
+		 */
+		do_action( 'jp_bbp_slack_integration_post_send', $response );
 
 	}
 
 }
 
+/**
+ * Load admin class if admin
+ *
+ * @since 0.2.0
+ */
 if ( is_admin() ) {
 	new jp_bbp_slack_integration_admin();
 }
